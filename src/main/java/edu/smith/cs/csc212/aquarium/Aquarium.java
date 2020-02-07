@@ -45,7 +45,7 @@ public class Aquarium extends GFX {
 	int fish2X = getWidth() + 300;
 	int fish3X = -100;
 	
-	Fish nemo = new Fish(300, 400, Color.orange);
+	Fish henry = new Fish(60, 0, Color.LIGHT_GRAY, false, true);
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -54,7 +54,7 @@ public class Aquarium extends GFX {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		// draw nemo
-		nemo.draw(g);
+		henry.draw(g);
 		
 		// Draw the fish!
 		DrawFish.facingLeft(g, Color.yellow, fish1X, 200);
