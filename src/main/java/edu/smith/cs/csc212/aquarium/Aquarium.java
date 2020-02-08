@@ -40,19 +40,25 @@ public class Aquarium extends GFX {
 		// Don't change this here, edit the variables instead.
 		super(WIDTH, HEIGHT);
 	}
-	
+
 	// create our fish here
-	Fish henry = new Fish(60, 0, Color.LIGHT_GRAY, false, true);
-	
+	Fish henry = new Fish(Color.LIGHT_GRAY, true);
+	Fish lucy = new Fish(Color.YELLOW, false);
+	Fish bob = new Fish(Color.PINK, true);
+	Fish adam = new Fish(Color.CYAN, false);
+
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		
+
 		// draw our fish here
 		henry.draw(g);
-		
+		lucy.draw(g);
+		bob.draw(g);
+		adam.draw(g);
+
 		// Draw our snail!
 		algorithm.draw(g);
 
@@ -61,7 +67,8 @@ public class Aquarium extends GFX {
 	public static void main(String[] args) {
 		// Uncomment this to make it go slower!
 		// GFX.FPS = 10;
-		// This is potentially helpful for debugging movement if there are too many print statements!
+		// This is potentially helpful for debugging movement if there are too many
+		// print statements!
 
 		// Note that we can store an Aquarium in a variable of type GFX because Aquarium
 		// is a very specific GFX, much like 7 can be stored in a variable of type int!
