@@ -46,12 +46,36 @@ public class Aquarium extends GFX {
 	Fish lucy = new Fish(Color.YELLOW, false);
 	Fish bob = new Fish(Color.PINK, true);
 	Fish adam = new Fish(Color.CYAN, false);
+	
+	// create bubbles
+	BubbleSystem b1 = new BubbleSystem();
+	BubbleSystem b2 = new BubbleSystem();
+	BubbleSystem b3 = new BubbleSystem();
+	BubbleSystem b4 = new BubbleSystem();
+	BubbleSystem b5 = new BubbleSystem();
+	BubbleSystem b6 = new BubbleSystem();
+	BubbleSystem b7 = new BubbleSystem();
+	BubbleSystem b8 = new BubbleSystem();
+	BubbleSystem b9 = new BubbleSystem();
+	BubbleSystem b10 = new BubbleSystem();
 
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		// draw bubbles here
+		b1.Draw(g);
+		b2.Draw(g);
+		b3.Draw(g);
+		b4.Draw(g);
+		b5.Draw(g);
+		b6.Draw(g);
+		b7.Draw(g);
+		b8.Draw(g);
+		b9.Draw(g);
+		b10.Draw(g);
 
 		// draw our fish here
 		henry.draw(g);

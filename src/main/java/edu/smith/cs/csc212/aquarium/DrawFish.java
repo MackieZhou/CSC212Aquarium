@@ -96,4 +96,12 @@ public class DrawFish {
 		facingLeft(halfSize, color, 0, 0);
 		halfSize.dispose();
 	}
+	
+	public static void Bubble(Graphics2D g, Color color, 
+			int x, int y, int size) {
+		// Draw the bubble
+		Shape bubble = new Ellipse2D.Double(x, y, 10*size, 10*size);
+		g.setColor(color);
+		g.fill(bubble);
+	}
 }
