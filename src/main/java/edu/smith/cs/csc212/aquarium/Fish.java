@@ -24,6 +24,7 @@ public class Fish {
 	// create a new random number generator
 	Random rand = new Random();
 
+	// the constructor method
 	public Fish(Color color, boolean isLittle) {
 		/**
 		 * construct a fish object

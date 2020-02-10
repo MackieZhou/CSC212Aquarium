@@ -2,6 +2,7 @@ package edu.smith.cs.csc212.aquarium;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import me.jjfoley.gfx.GFX;
 
@@ -41,47 +42,28 @@ public class Aquarium extends GFX {
 		super(WIDTH, HEIGHT);
 	}
 
-	// create our fish here
-	Fish henry = new Fish(Color.LIGHT_GRAY, true);
-	Fish lucy = new Fish(Color.YELLOW, false);
-	Fish bob = new Fish(Color.PINK, true);
-	Fish adam = new Fish(Color.CYAN, false);
-	
-	// create bubbles
-	BubbleSystem b1 = new BubbleSystem();
-	BubbleSystem b2 = new BubbleSystem();
-	BubbleSystem b3 = new BubbleSystem();
-	BubbleSystem b4 = new BubbleSystem();
-	BubbleSystem b5 = new BubbleSystem();
-	BubbleSystem b6 = new BubbleSystem();
-	BubbleSystem b7 = new BubbleSystem();
-	BubbleSystem b8 = new BubbleSystem();
-	BubbleSystem b9 = new BubbleSystem();
-	BubbleSystem b10 = new BubbleSystem();
+	// create a random number generator
+	public static Random rand = new Random();
+
+	// create arrays colors and fish
+	public static Color[] fishColor = { Color.LIGHT_GRAY, Color.YELLOW, Color.PINK, Color.GRAY, Color.CYAN,
+			Color.YELLOW, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY };
+	public static Fish[] fish = new Fish[10];
+
+	// create arrays of bubbles
+	public static BubbleSystem[] bubbles = new BubbleSystem[10];
 
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		
-		// draw bubbles here
-		b1.Draw(g);
-		b2.Draw(g);
-		b3.Draw(g);
-		b4.Draw(g);
-		b5.Draw(g);
-		b6.Draw(g);
-		b7.Draw(g);
-		b8.Draw(g);
-		b9.Draw(g);
-		b10.Draw(g);
 
-		// draw our fish here
-		henry.draw(g);
-		lucy.draw(g);
-		bob.draw(g);
-		adam.draw(g);
+		// draw our fish and bubbles here
+		for (int i = 0; i < 10; i++) {
+			bubbles[i].Draw(g);
+			fish[i].draw(g);
+		}
 
 		// Draw our snail!
 		algorithm.draw(g);
@@ -97,6 +79,23 @@ public class Aquarium extends GFX {
 		// Note that we can store an Aquarium in a variable of type GFX because Aquarium
 		// is a very specific GFX, much like 7 can be stored in a variable of type int!
 		GFX app = new Aquarium();
+
+		for (int i = 0; i < 10; i++) {
+			// determine the size of the fish
+			int size = rand.nextInt(2);
+			boolean isLittle;
+			if (size == 0) {
+				isLittle = true;
+			} else {
+				isLittle = false;
+			}
+
+			// create the fish objects
+			fish[i] = new Fish(fishColor[i], isLittle);
+			// create the bubble objects
+			bubbles[i] = new BubbleSystem();
+		}
+
 		app.start();
 	}
 
