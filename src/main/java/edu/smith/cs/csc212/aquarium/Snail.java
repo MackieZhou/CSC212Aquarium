@@ -23,6 +23,10 @@ public class Snail {
 	 * The position of the Snail; y-coordinate.
 	 */
 	public int y;
+	/**
+	 * how long has the snail been eating?
+	 */
+	public static int eatTime = 0;
 
 	/**
 	 * Create a snail at (sx, sy) with position s.
@@ -50,6 +54,31 @@ public class Snail {
 	 * TODO: move the snail about.
 	 */
 	public void move() {
+		if ("top".equals(this.direction)) {
+			if (this.x < 450) {
+				this.x += 1;
+			} else {
+				this.direction = "right";
+			}
+		} else if ("right".equals(this.direction)) {
+			if (this.y < 450) {
+				this.y += 1;
+			} else {
+				this.direction = "bottom";
+			}
+		} else if ("bottom".equals(this.direction)) {
+			if (this.x > 50) {
+				this.x -= 1;
+			} else {
+				this.direction = "left";
+			}
+		} else if ("left".equals(this.direction)) {
+			if (this.y > 50) {
+				this.y -= 1;
+			} else {
+				this.direction = "top";
+			}
+		}
 
 	}
 
@@ -59,9 +88,18 @@ public class Snail {
 	 * @param g - the window to draw to.
 	 */
 	public void draw(Graphics2D g) {
-		// By calling move here, if we want to move our snail, we can do so.
-		// Move gets called by draw, so whenever draw gets called.
-		this.move();
+		// move only when green is 155
+		if (Aquarium.green == 160 || (eatTime > 200 && eatTime < 365)) {
+			this.move();
+
+			// eatTime accumulates
+			eatTime++;
+		}
+		
+		if (eatTime == 365) {
+			eatTime = 0;
+		}
+		
 
 		// By making a new Graphics2D object, we can move everything that gets drawn to
 		// it.

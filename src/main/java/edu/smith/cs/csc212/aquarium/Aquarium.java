@@ -31,7 +31,7 @@ public class Aquarium extends GFX {
 	/**
 	 * Put a snail on the top of the tank.
 	 */
-	Snail algorithm = new Snail(177, Snail.HEIGHT + 1, "top");
+	Snail algorithm = new Snail(177, Snail.HEIGHT, "top");
 
 	/**
 	 * This is a constructor, code that runs when we make a new Aquarium.
@@ -45,6 +45,9 @@ public class Aquarium extends GFX {
 	// create a random number generator
 	public static Random rand = new Random();
 
+	// set a green component of the bgColor
+	public static int green = 0;
+
 	// create arrays colors and fish
 	public static Color[] fishColor = { Color.LIGHT_GRAY, Color.YELLOW, Color.PINK, Color.GRAY, Color.CYAN,
 			Color.YELLOW, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY };
@@ -56,7 +59,8 @@ public class Aquarium extends GFX {
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
-		g.setColor(Color.blue);
+		Color bgColor = new Color(0, green, 200);
+		g.setColor(bgColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		// draw our fish and bubbles here
@@ -67,6 +71,16 @@ public class Aquarium extends GFX {
 
 		// Draw our snail!
 		algorithm.draw(g);
+
+		// the water gets greener and greener
+		if (green < 254 && Snail.eatTime == 0) {
+			green++;
+		} else if (Snail.eatTime > 200 && green > 0) {
+			green--;
+		}
+
+//		System.out.println(Snail.eatTime);
+//		System.out.println(green);
 
 	}
 
