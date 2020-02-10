@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
 
 public class Snail {
 	/**
@@ -27,6 +28,10 @@ public class Snail {
 	 * how long has the snail been eating?
 	 */
 	public static int eatTime = 0;
+	/**
+	 * is the snail moving?
+	 */
+	public static boolean isMoving;
 
 	/**
 	 * Create a snail at (sx, sy) with position s.
@@ -58,25 +63,25 @@ public class Snail {
 			if (this.x < 450) {
 				this.x += 1;
 			} else {
-				this.direction = "right";
+				this.setSide("right");
 			}
 		} else if ("right".equals(this.direction)) {
 			if (this.y < 450) {
 				this.y += 1;
 			} else {
-				this.direction = "bottom";
+				this.setSide("bottom");
 			}
 		} else if ("bottom".equals(this.direction)) {
 			if (this.x > 50) {
 				this.x -= 1;
 			} else {
-				this.direction = "left";
+				this.setSide("left");
 			}
 		} else if ("left".equals(this.direction)) {
 			if (this.y > 50) {
 				this.y -= 1;
 			} else {
-				this.direction = "top";
+				this.setSide("top");
 			}
 		}
 
@@ -88,18 +93,21 @@ public class Snail {
 	 * @param g - the window to draw to.
 	 */
 	public void draw(Graphics2D g) {
+		// unless the snail is moving, isMoving is set to false
+		isMoving = false;
+
 		// move only when green is 155
 		if (Aquarium.green == 160 || (eatTime > 200 && eatTime < 365)) {
 			this.move();
+			isMoving = true;
 
 			// eatTime accumulates
 			eatTime++;
 		}
-		
+
 		if (eatTime == 365) {
 			eatTime = 0;
 		}
-		
 
 		// By making a new Graphics2D object, we can move everything that gets drawn to
 		// it.
@@ -109,18 +117,18 @@ public class Snail {
 
 		// Note that I need to compare strings with ".equals" this is a Java weirdness.
 		if ("bottom".equals(this.direction)) {
-			drawSnail(position, Color.red, Color.white, Color.black);
+			drawSnail(position, Color.red, Color.white, Color.black, isMoving);
 		} else if ("top".equals(this.direction)) {
 			position.scale(-1, -1);
-			drawSnail(position, Color.red, Color.white, Color.black);
+			drawSnail(position, Color.red, Color.white, Color.black, isMoving);
 		} else if ("left".equals(this.direction)) {
 			// Oh no, radians.
 			position.rotate(Math.PI / 2);
-			drawSnail(position, Color.red, Color.white, Color.black);
+			drawSnail(position, Color.red, Color.white, Color.black, isMoving);
 		} else { // we don't have to say "right" here.
 			// Oh no, radians.
 			position.rotate(-Math.PI / 2);
-			drawSnail(position, Color.red, Color.white, Color.black);
+			drawSnail(position, Color.red, Color.white, Color.black, isMoving);
 		}
 
 		// It's OK if you forget this, Java will eventually notice, but better to have
@@ -136,30 +144,20 @@ public class Snail {
 	 * @param shellColor The color of the snail shell.
 	 * @param eyeColor   The color of the snail eye.
 	 */
-	public static void drawSnail(Graphics2D g, Color bodyColor, Color shellColor, Color eyeColor) {
+	public static void drawSnail(Graphics2D g, Color bodyColor, Color shellColor, Color eyeColor, boolean isMoving) {
+		Shape eyeWhiteL = new Ellipse2D.Double(-4, -28, 12, 12);
+		Shape eyeWhiteR = new Ellipse2D.Double(35 - 4, -28, 12, 12);
 		Shape body = new Rectangle2D.Double(0, 0, 40, 50);
 		Shape tentacleL = new Rectangle2D.Double(0, -20, 5, 20);
-		Shape eyeWhiteL = new Ellipse2D.Double(-4, -28, 12, 12);
-		Shape eyePupilL = new Ellipse2D.Double(-2, -26, 4, 4);
 
 		g.setColor(bodyColor);
 		g.fill(body);
 		g.fill(tentacleL);
-		g.setColor(Color.white);
-		g.fill(eyeWhiteL);
-		g.setColor(eyeColor);
-		g.fill(eyePupilL);
 
 		Shape tentacleR = new Rectangle2D.Double(35, -20, 5, 20);
-		Shape eyeWhiteR = new Ellipse2D.Double(35 - 4, -28, 12, 12);
-		Shape eyePupilR = new Ellipse2D.Double(35 + 2, -26 + 4, 4, 4);
 
 		g.setColor(bodyColor);
 		g.fill(tentacleR);
-		g.setColor(Color.white);
-		g.fill(eyeWhiteR);
-		g.setColor(eyeColor);
-		g.fill(eyePupilR);
 
 		Shape shell3 = new Ellipse2D.Double(45, 20, 10, 10);
 		Shape shell2 = new Ellipse2D.Double(35, 10, 30, 30);
@@ -177,5 +175,29 @@ public class Snail {
 		g.fill(shell3);
 		g.setColor(Color.black);
 		g.draw(shell3);
+
+		if (isMoving == true) {
+			// make the eyes open
+			Shape eyePupilL = new Ellipse2D.Double(-2, -26, 4, 4);
+			Shape eyePupilR = new Ellipse2D.Double(35 + 2, -26 + 4, 4, 4);
+
+			g.setColor(Color.white);
+			g.fill(eyeWhiteL);
+			g.fill(eyeWhiteR);
+			g.setColor(eyeColor);
+			g.fill(eyePupilL);
+			g.fill(eyePupilR);
+		} else {
+			// make the eyes close
+			g.setColor(bodyColor);
+			g.fill(eyeWhiteL);
+			g.fill(eyeWhiteR);
+
+			Shape eyeLineL = new Line2D.Double(-4, -22, 8, -22);
+			Shape eyeLineR = new Line2D.Double(35 - 4, -22, 35 + 8, -22);
+			g.setColor(Color.BLACK);
+			g.draw(eyeLineL);
+			g.draw(eyeLineR);
+		}
 	}
 }

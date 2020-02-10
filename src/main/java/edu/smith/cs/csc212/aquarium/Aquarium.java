@@ -96,13 +96,7 @@ public class Aquarium extends GFX {
 
 		for (int i = 0; i < 10; i++) {
 			// determine the size of the fish
-			int size = rand.nextInt(2);
-			boolean isLittle;
-			if (size == 0) {
-				isLittle = true;
-			} else {
-				isLittle = false;
-			}
+			boolean isLittle = rand.nextBoolean();
 
 			// create the fish objects
 			fish[i] = new Fish(fishColor[i], isLittle);
