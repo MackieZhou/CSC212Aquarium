@@ -3,6 +3,11 @@ package edu.smith.cs.csc212.aquarium;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Random;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import me.jjfoley.gfx.GFX;
 
@@ -56,6 +61,10 @@ public class Aquarium extends GFX {
 	// create arrays of bubbles
 	public static BubbleSystem[] bubbles = new BubbleSystem[10];
 
+	// the treasure chest in the background
+//	Image wood = getImage(getCodeBase(), "treasureChest.png");
+	public static BufferedImage img = null;
+
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
@@ -63,10 +72,17 @@ public class Aquarium extends GFX {
 		g.setColor(bgColor);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		// draw our fish and bubbles here
-		for (int i = 0; i < 10; i++) {
-			bubbles[i].Draw(g);
-			fish[i].draw(g);
+		// draw our bubbles here
+		for (BubbleSystem b : bubbles) {
+			b.draw(g);
+		}
+
+		// draw the treasure-chest
+		g.drawImage(img, 55, 440, null);
+
+		// draw our fish here
+		for (Fish f : fish) {
+			f.draw(g);
 		}
 
 		// Draw our snail!
@@ -78,10 +94,6 @@ public class Aquarium extends GFX {
 		} else if (Snail.eatTime > 200 && green > 0) {
 			green--;
 		}
-
-//		System.out.println(Snail.eatTime);
-//		System.out.println(green);
-
 	}
 
 	public static void main(String[] args) {
@@ -93,6 +105,12 @@ public class Aquarium extends GFX {
 		// Note that we can store an Aquarium in a variable of type GFX because Aquarium
 		// is a very specific GFX, much like 7 can be stored in a variable of type int!
 		GFX app = new Aquarium();
+
+		// load the treasure-chest image
+		try {
+			img = ImageIO.read(new File("src/main/java/edu/smith/cs/csc212/aquarium/treasureChest.png"));
+		} catch (IOException e) {
+		}
 
 		for (int i = 0; i < 10; i++) {
 			// determine the size of the fish

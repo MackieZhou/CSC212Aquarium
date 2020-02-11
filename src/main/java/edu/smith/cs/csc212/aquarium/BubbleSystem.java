@@ -51,7 +51,7 @@ public class BubbleSystem {
 		}
 	}
 	
-	public void Draw(Graphics2D g) {
+	public void draw(Graphics2D g) {
 		this.times += 1;
 		this.move();
 		DrawFish.Bubble(g, myColor, this.x, this.y, this.size);	
