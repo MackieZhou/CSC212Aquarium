@@ -24,13 +24,8 @@ import me.jjfoley.gfx.GFX;
  *
  */
 public class Aquarium extends GFX {
-	/**
-	 * This is a static variable that tells us how wide the aquarium is.
-	 */
+	
 	public static int WIDTH = 500;
-	/**
-	 * This is a static variable that tells us how tall the aquarium is.
-	 */
 	public static int HEIGHT = 500;
 
 	/**
@@ -55,15 +50,17 @@ public class Aquarium extends GFX {
 
 	// create arrays colors and fish
 	public static Color[] fishColor = { Color.LIGHT_GRAY, Color.YELLOW, Color.PINK, Color.GRAY, Color.CYAN,
-			Color.YELLOW, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY };
+			Color.WHITE, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.DARK_GRAY };
 	public static Fish[] fish = new Fish[10];
 
 	// create arrays of bubbles
 	public static BubbleSystem[] bubbles = new BubbleSystem[10];
 
 	// the treasure chest in the background
-//	Image wood = getImage(getCodeBase(), "treasureChest.png");
 	public static BufferedImage img = null;
+
+	// create the predator
+	public static Predator Jaws;
 
 	@Override
 	public void draw(Graphics2D g) {
@@ -78,6 +75,7 @@ public class Aquarium extends GFX {
 		}
 
 		// draw the treasure-chest
+		// URL: https://docs.oracle.com/javase/tutorial/2d/images/drawimage.html
 		g.drawImage(img, 55, 440, null);
 
 		// draw our fish here
@@ -87,6 +85,17 @@ public class Aquarium extends GFX {
 
 		// Draw our snail!
 		algorithm.draw(g);
+
+		// draw the predator
+		Jaws.drawPredator(g);
+
+		// fuck debugging...
+		System.out.println(Jaws.order);
+		System.out.println("fish pos = " + fish[Jaws.order].x + ", " + fish[Jaws.order].y);
+		System.out.println("dest = " + Jaws.dest_x + ", " + Jaws.dest_y);
+		System.out.println("position = " + Jaws.x + ", " + Jaws.y);
+		System.out.println("speed = " + Jaws.speedx + ", " + Jaws.speedy);
+		
 
 		// the water gets greener and greener
 		if (green < 254 && Snail.eatTime == 0) {
@@ -107,6 +116,7 @@ public class Aquarium extends GFX {
 		GFX app = new Aquarium();
 
 		// load the treasure-chest image
+		// URL: https://docs.oracle.com/javase/tutorial/2d/images/loadimage.html
 		try {
 			img = ImageIO.read(new File("src/main/java/edu/smith/cs/csc212/aquarium/treasureChest.png"));
 		} catch (IOException e) {
@@ -121,6 +131,8 @@ public class Aquarium extends GFX {
 			// create the bubble objects
 			bubbles[i] = new BubbleSystem();
 		}
+
+		Jaws = new Predator(fish);
 
 		app.start();
 	}

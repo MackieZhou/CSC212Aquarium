@@ -9,7 +9,7 @@ public class Fish {
 	double x;
 	double y;
 
-	// color and facing
+	// color, size, facing
 	Color color;
 	boolean facingLeft;
 	boolean isLittle;
@@ -17,10 +17,14 @@ public class Fish {
 	// destination of fish
 	int dest_x;
 	int dest_y;
-	
+
 	double speedx;
 	double speedy;
-	
+
+	// if the fish is eaten....
+	// don't draw it
+	boolean eaten;
+
 	// create a new random number generator
 	Random rand = new Random();
 
@@ -43,9 +47,12 @@ public class Fish {
 
 		this.isLittle = isLittle;
 		this.color = color;
-		
+
 		// give the fish an initial speed
 		this.calcSpeed();
+
+		// at the beginning, the fish is not eaten
+		this.eaten = false;
 	}
 
 	public void swim() {
@@ -63,12 +70,12 @@ public class Fish {
 			this.x -= this.speedx;
 		}
 	}
-	
+
 	public void calcSpeed() {
 		/**
 		 * fish swims at a constant speed toward the destination
 		 */
-		
+
 		// calculate the distance between position and destination
 		double distanceX = Math.abs(this.dest_x - this.x);
 		double distanceY = Math.abs(this.dest_y - this.y);
@@ -78,10 +85,10 @@ public class Fish {
 		// how long does the fish swim each time
 		double speedx = distanceX / times;
 		double speedy = distanceY / times;
-		
+
 		this.speedx = speedx;
 		this.speedy = speedy;
-		
+
 	}
 
 	public void changeDest() {
@@ -93,7 +100,7 @@ public class Fish {
 		int dest_y2 = rand.nextInt(500);
 		this.dest_x = dest_x2;
 		this.dest_y = dest_y2;
-		
+
 		// recalculate the speed of the fish
 		this.calcSpeed();
 	}
@@ -104,8 +111,7 @@ public class Fish {
 
 		// to check if the fish is close enough to the destination
 		// if true - choose another destination
-		if (Math.abs(this.x - this.dest_x) < 7 && 
-				Math.abs(this.y - this.dest_y) < 7) {
+		if (Math.abs(this.x - this.dest_x) < 7 && Math.abs(this.y - this.dest_y) < 7) {
 			this.changeDest();
 		}
 
@@ -115,24 +121,18 @@ public class Fish {
 		} else {
 			this.facingLeft = false;
 		}
-		
-//		System.out.println("position: "+this.x+", "+this.y);
-//		System.out.println("speed: "+this.speedx+", "+this.speedy);
-//		System.out.println("destination: "+this.dest_x+", "+this.dest_y);
-//		System.out.println();
 
 		// fish small or not? fish facing left or not?
 		// choose the proper draw method
-		if (this.facingLeft && this.isLittle) {
+		if (this.facingLeft && this.isLittle && this.eaten == false) {
 			DrawFish.smallFacingLeft(g, this.color, this.x, this.y);
-		} else if (this.facingLeft && !this.isLittle) {
+		} else if (this.facingLeft && !this.isLittle && this.eaten == false) {
 			DrawFish.facingLeft(g, this.color, this.x, this.y);
-		} else if (!this.facingLeft && this.isLittle) {
+		} else if (!this.facingLeft && this.isLittle && this.eaten == false) {
 			DrawFish.smallFacingRight(g, this.color, this.x, this.y);
-		} else {
+		} else if (!this.facingLeft && !this.isLittle && this.eaten == false) {
 			DrawFish.facingRight(g, this.color, this.x, this.y);
 		}
-
 	}
 
 }

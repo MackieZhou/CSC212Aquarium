@@ -96,12 +96,27 @@ public class DrawFish {
 		facingLeft(halfSize, color, 0, 0);
 		halfSize.dispose();
 	}
-	
-	public static void Bubble(Graphics2D g, Color color, 
-			int x, int y, int size) {
+
+	public static void Bubble(Graphics2D g, Color color, int x, int y, int size) {
 		// Draw the bubble
-		Shape bubble = new Ellipse2D.Double(x, y, 10*size, 10*size);
+		Shape bubble = new Ellipse2D.Double(x, y, 10 * size, 10 * size);
 		g.setColor(color);
 		g.fill(bubble);
+	}
+
+	public static void predatorLeft(Graphics2D g, Color color, double x, double y) {
+		Graphics2D predator = (Graphics2D) g.create();
+		predator.translate(x, y);
+		predator.scale(1.5, 1.5);
+		facingLeft(predator, color, 0, 0);
+		predator.dispose();
+	}
+	
+	public static void predatorRight(Graphics2D g, Color color, double x, double y) {
+		Graphics2D flipped = (Graphics2D) g.create();
+		flipped.translate(x, y);
+		flipped.scale(-1.5, 1.5);
+		facingLeft(flipped, color, 0, 0);
+		flipped.dispose();
 	}
 }
