@@ -5,24 +5,21 @@ import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Fish {
-	// position of a fish
+
+	// position, destination, speed
 	double x;
 	double y;
+	int dest_x;
+	int dest_y;
+	double speedx;
+	double speedy;
 
 	// color, size, facing
 	Color color;
 	boolean facingLeft;
 	boolean isLittle;
 
-	// destination of fish
-	int dest_x;
-	int dest_y;
-
-	double speedx;
-	double speedy;
-
-	// if the fish is eaten....
-	// don't draw it
+	// if the fish is eaten.... don't draw it
 	boolean eaten;
 
 	// create a new random number generator
@@ -30,9 +27,7 @@ public class Fish {
 
 	// the constructor method
 	public Fish(Color color, boolean isLittle) {
-		/**
-		 * construct a fish object
-		 */
+
 		// randomly select an initial position
 		int pos_x = rand.nextInt(400) + 50;
 		int pos_y = rand.nextInt(400) + 50;
@@ -72,9 +67,6 @@ public class Fish {
 	}
 
 	public void calcSpeed() {
-		/**
-		 * fish swims at a constant speed toward the destination
-		 */
 
 		// calculate the distance between position and destination
 		double distanceX = Math.abs(this.dest_x - this.x);

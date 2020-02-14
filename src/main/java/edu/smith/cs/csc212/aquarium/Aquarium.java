@@ -1,3 +1,6 @@
+// Mackie Zhou
+// 2/13/2020
+
 package edu.smith.cs.csc212.aquarium;
 
 import java.awt.Color;
@@ -91,8 +94,6 @@ public class Aquarium extends GFX {
 	}
 
 	public static void main(String[] args) {
-		// Uncomment this to make it go slower!
-		// GFX.FPS = 10;
 
 		// Note that we can store an Aquarium in a variable of type GFX because Aquarium
 		// is a very specific GFX, much like 7 can be stored in a variable of type int!
